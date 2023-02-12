@@ -1,5 +1,6 @@
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 import {
   FAV_ADD,
   FAV_REMOVE,
@@ -22,6 +23,10 @@ function writeFavsToLocalStorage(favs) {
 }
 
 function readFavsFromLocalStorage() {
+  if (!localStorage.getItem("favourite")) {
+    localStorage.setItem("favourite", []);
+    return [];
+  }
   return JSON.parse(localStorage.getItem("favourite"));
 }
 
@@ -50,12 +55,8 @@ export function myReducer(state = initial, action) {
       };
     }
 
-    case FETCH_SUCCESS: {
-      toast.success(
-        `${action.payload.setup} adlı şaka anasayfaya eklenmiştir.`
-      );
+    case FETCH_SUCCESS:
       return { ...state, current: action.payload };
-    }
 
     case FETCH_LOADING:
       return { ...state, loading: action.payload };
@@ -70,6 +71,7 @@ export function myReducer(state = initial, action) {
       };
 
     case DELETE_FAVS_FROM_LS: {
+      toast.info("Tüm favori geçmiş datası silinmiştir.");
       writeFavsToLocalStorage([]);
       return { ...state, favs: readFavsFromLocalStorage() };
     }

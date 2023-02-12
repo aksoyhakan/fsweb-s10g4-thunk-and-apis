@@ -17,7 +17,6 @@ export default function App() {
   const current = useSelector((store) => store.current);
   const favs = useSelector((store) => store.favs);
 
-  console.log(favs);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -29,6 +28,7 @@ export default function App() {
     dispatch(addFav());
   }
 
+  console.log(favs);
   return (
     <div className="wrapper max-w-xl mx-auto px-4">
       <nav className="flex text-2xl pb-6 pt-8 gap-2 justify-center">
